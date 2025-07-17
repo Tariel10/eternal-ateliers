@@ -1,5 +1,6 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import { shopifyFetch } from '../../lib/shopify';
+import { GET_ALL_PRODUCTS } from '../../lib/queries';
+
 import { ArrowRight } from 'lucide-react';
 
 export default function Home() {
