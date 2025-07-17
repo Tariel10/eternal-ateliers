@@ -1,5 +1,5 @@
-import { shopifyFetch } from '@/lib/shopify';
-import { GET_PRODUCT_BY_HANDLE } from '@/lib/queries';
+import { shopifyFetch } from '../../../lib/shopify';
+import { GET_PRODUCT_BY_HANDLE } from '../../../lib/queries';
 import Image from 'next/image';
 import Link from 'next/link';
 
