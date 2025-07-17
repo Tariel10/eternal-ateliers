@@ -1,24 +1,30 @@
 {
   "name": "eternal-ateliers",
   "version": "1.0.0",
-  "private": true,
+  "description": "## Installatie",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "next": "^14.2.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "lucide-react": "^0.379.0"
-    "graphql-request": "^6.1.0"
+    "graphql-request": "^7.2.0",
+    "lucide-react": "^0.525.0",
+    "next": "^15.4.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.5.0",
-    "@types/react": "^18.2.29",
-    "@types/node": "^20.8.6"
+    "@types/node": "^24.0.14",
+    "@types/react": "^19.1.8",
+    "typescript": "^5.8.3"
   }
 }
-
-
