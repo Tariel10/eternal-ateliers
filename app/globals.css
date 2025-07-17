@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-background: theme(colors.navy);
+  --color-accent: theme(colors.gold);
+}
+
+body {
+  background-color: var(--color-background);
+  color: white;
+}
