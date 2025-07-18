@@ -1,62 +1,51 @@
-// app/page.tsx
+// @ts-nocheck
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { shopifyFetch } from '../lib/shopify';
-import { GET_ALL_PRODUCTS } from '../lib/queries';
-import { ArrowRight } from 'lucide-react';
+import { shopifyFetch } from '../../../lib/shopify';
+import { GET_PRODUCT_BY_HANDLE } from '../../../lib/queries';
 
-export default async function Home() {
-  // Haal alle producten op
-  const { data } = await shopifyFetch<{ products: any }>(
-    GET_ALL_PRODUCTS
+export default async function ProductDetail({ params }) {
+  // Haal het product op via Shopify
+  const { data } = await shopifyFetch<{ product: any }>(
+    GET_PRODUCT_BY_HANDLE,
+    { handle: params.handle }
   );
-  const products = data.products.nodes;
+
+  const product = data.product;
+  if (!product) {
+    return <p className="text-center py-20">Product niet gevonden.</p>;
+  }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center text-center px-4">
-      {/* Hero */}
-      <Image
-        src="/hero-placeholder.jpg"
-        width={1600}
-        height={900}
-        alt="Eternal Ateliers hero"
-        className="w-full max-h-[70vh] object-cover rounded-2xl shadow-lg"
-      />
-
-      <h1 className="mt-8 font-serif text-4xl md:text-6xl">Eternal Ateliers</h1>
-      <p className="mt-4 max-w-xl mx-auto text-lg text-white/80">
-        Luxe en moderne bureaus, vervaardigd uit hoogwaardige materialen voor een
-        leven lang vakmanschap.
-      </p>
-
-      {/* Collectie-link */}
-      <Link
-        href="/products"
-        className="inline-flex items-center gap-2 mt-8 px-6 py-3 rounded-full bg-gold text-navy font-medium hover:opacity-90 transition"
-      >
-        Bekijk Collectie <ArrowRight size={18} />
-      </Link>
-
-      {/* Optioneel: een eenvoudig productoverzicht onderaan */}
-      <section className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.slice(0, 3).map((prod: any) => (
-          <Link
-            key={prod.handle}
-            href={`/product/${prod.handle}`}
-            className="block overflow-hidden rounded-xl shadow-lg"
-          >
-            <Image
-              src={prod.images.nodes[0]?.url}
-              alt={prod.title}
-              width={400}
-              height={400}
-              className="w-full h-64 object-cover"
-            />
-            <h2 className="mt-4 font-semibold">{prod.title}</h2>
-          </Link>
-        ))}
-      </section>
-    </main>
+    <article className="max-w-5xl mx-auto py-16 px-4 grid lg:grid-cols-2 gap-12">
+      {product.images?.nodes?.[0] && (
+        <Image
+          src={product.images.nodes[0].url}
+          alt={product.title}
+          width={800}
+          height={800}
+          className="rounded-3xl shadow-lg w-full h-auto object-cover"
+        />
+      )}
+      <div>
+        <h1 className="font-serif text-3xl mb-4">{product.title}</h1>
+        <div
+          className="prose prose-invert"
+          dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+        />
+        <p className="mt-6 text-gold font-semibold text-xl">
+          {Number(
+            product.variants?.nodes?.[0]?.price?.amount ?? 0
+          ).toLocaleString('nl-NL', { minimumFractionDigits: 2 })}
+        </p>
+        <Link
+          href={product.onlineStoreUrl ?? '#'}
+          className="inline-block mt-6 px-6 py-3 bg-gold text-navy rounded-full hover:opacity-90 transition"
+        >
+          Bestel nu
+        </Link>
+      </div>
+    </article>
   );
 }
