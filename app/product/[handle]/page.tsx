@@ -5,14 +5,14 @@ import { shopifyFetch } from '../../../lib/shopify';
 import { GET_PRODUCT_BY_HANDLE } from '../../../lib/queries';
 
 export default async function ProductDetail({
-  params,
+  params: { handle },
 }: {
   params: { handle: string };
 }) {
-  // GraphQL‑fetch
+  // Haal het product op via Shopify
   const { data } = await shopifyFetch<{ product: any }>(
     GET_PRODUCT_BY_HANDLE,
-    { handle: params.handle }
+    { handle }
   );
 
   const product = data.product;
@@ -22,6 +22,7 @@ export default async function ProductDetail({
 
   return (
     <article className="max-w-5xl mx-auto py-16 px-4 grid lg:grid-cols-2 gap-12">
+      {/* Afbeelding */}
       {product.images?.nodes?.[0] && (
         <Image
           src={product.images.nodes[0].url}
@@ -31,6 +32,8 @@ export default async function ProductDetail({
           className="rounded-3xl shadow-lg w-full h-auto object-cover"
         />
       )}
+
+      {/* Details */}
       <div>
         <h1 className="font-serif text-3xl mb-4">{product.title}</h1>
         <div
@@ -52,3 +55,4 @@ export default async function ProductDetail({
     </article>
   );
 }
+
