@@ -7,10 +7,10 @@ import { GET_ALL_PRODUCTS } from '../lib/queries';
 import { ArrowRight } from 'lucide-react';
 
 export default async function Home() {
-  // Haal alle producten op
-  const { data } = await shopifyFetch<{ products: any }>(
-    GET_ALL_PRODUCTS
-  );
+  // Haal alle producten op; shopifyFetch geeft direct het object terug
+  const data = await shopifyFetch<{ products: any }>(GET_ALL_PRODUCTS);
+
+  // Pak de array uit data.products.nodes
   const products = data.products.nodes;
 
   return (
