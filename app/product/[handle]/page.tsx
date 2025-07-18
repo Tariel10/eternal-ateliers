@@ -1,12 +1,11 @@
-import { shopifyFetch } from '../../../lib/shopify';
-import { GET_PRODUCT_BY_HANDLE } from '../../../lib/queries';
-import Image from 'next/image';
-import Link from 'next/link';
+type PageProps = {
+  params: {
+    handle: string;
+  };
+};
 
-export const dynamicParams = true;
-
-interface Params { handle: string }
-export default async function ProductDetail({ params }: { params: Params }) {
+// ---------- page component ----------
+export default async function ProductDetail({ params }: PageProps) {
   const { product } = await shopifyFetch<{ product: any }>(GET_PRODUCT_BY_HANDLE, { handle: params.handle });
   if (!product) return <p className="text-center py-20">Product niet gevonden.</p>;
   return (
